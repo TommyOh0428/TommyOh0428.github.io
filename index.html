@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tommy Oh · Product Designer & Front-end Developer</title>
+    <meta
+      name="description"
+      content="Portfolio for Tommy Oh, a product designer and front-end developer creating immersive, human-centered digital experiences."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script defer src="assets/js/script.js"></script>
+  </head>
+  <body>
+    <div class="background">
+      <div class="background__gradient"></div>
+      <div class="background__grid"></div>
+    </div>
+
+    <header class="site-header" id="top">
+      <div class="container header__inner">
+        <a class="brand" href="#hero" aria-label="Back to top">Tommy Oh</a>
+        <nav class="site-nav" aria-label="Primary">
+          <button class="nav-toggle" aria-expanded="false" aria-controls="nav-list">
+            <span class="sr-only">Toggle navigation</span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <ul id="nav-list">
+            <li><a href="#about" data-nav="about">About</a></li>
+            <li><a href="#skills" data-nav="skills">Skills</a></li>
+            <li><a href="#projects" data-nav="projects">Projects</a></li>
+            <li><a href="#experience" data-nav="experience">Experience</a></li>
+            <li><a href="#contact" data-nav="contact">Contact</a></li>
+          </ul>
+        </nav>
+        <button class="theme-toggle" type="button" aria-label="Activate light theme" data-theme-toggle>
+          <span class="theme-icon theme-icon--sun" aria-hidden="true"></span>
+          <span class="theme-icon theme-icon--moon" aria-hidden="true"></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="hero">
+        <div class="container hero__grid">
+          <div class="hero__text reveal">
+            <p class="eyebrow">Product Designer · Front-end Developer</p>
+            <h1>Designing digital journeys that feel effortless.</h1>
+            <p>
+              I'm Tommy Oh, a multidisciplinary creator blending strategy, interface design, and
+              engineering to launch impactful products. I partner with ambitious teams to turn
+              complex problems into experiences people instinctively understand.
+            </p>
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="#projects">View projects</a>
+              <a class="btn btn--ghost" href="#contact">Let's collaborate</a>
+            </div>
+            <ul class="hero__highlights" role="list">
+              <li>
+                <span class="label">Currently</span>
+                Collaborating with early-stage founders on product vision, design systems, and
+                go-to-market storytelling.
+              </li>
+              <li>
+                <span class="label">Based in</span>
+                Vancouver, partnering with distributed teams across North America and the Pacific.
+              </li>
+            </ul>
+          </div>
+          <div class="hero__visual reveal" role="presentation">
+            <div class="hero-orb">
+              <div class="hero-orb__glow"></div>
+              <div class="hero-orb__ring"></div>
+              <div class="hero-orb__card">
+                <h2>Build with feeling.</h2>
+                <p>
+                  Every interface is a conversation. I craft flows that respect people's time and
+                  curiosity.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="container">
+          <div class="section__header reveal">
+            <span class="eyebrow">About</span>
+            <h2>Human-centered craft backed by systems thinking.</h2>
+            <p>
+              I thrive at the intersection of design, development, and product strategy. From quick
+              experiments to polished launches, I help teams find clarity, move fast, and deliver
+              value.
+            </p>
+          </div>
+          <div class="about__grid">
+            <p class="reveal">
+              Over the past seven years I've shaped SaaS platforms, storytelling sites, and mobile
+              products for organizations ranging from scrappy startups to global brands. My
+              approach balances measurable outcomes with emotional resonance—pairing evidence with
+              intuition.
+            </p>
+            <div class="about__cards">
+              <article class="about-card reveal">
+                <h3>Ways I help</h3>
+                <ul>
+                  <li>Product and experience strategy</li>
+                  <li>Design systems & accessibility audits</li>
+                  <li>High-fidelity prototyping & motion</li>
+                </ul>
+              </article>
+              <article class="about-card reveal">
+                <h3>Principles</h3>
+                <ul>
+                  <li>Design for clarity before novelty</li>
+                  <li>Lead with empathy and evidence</li>
+                  <li>Ship, learn, and iterate together</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills" class="section section--surface">
+        <div class="container">
+          <div class="section__header reveal">
+            <span class="eyebrow">Expertise</span>
+            <h2>The toolkit I bring to the table.</h2>
+          </div>
+          <div class="card-grid" role="list">
+            <article class="skill-card reveal" role="listitem">
+              <h3>Product Strategy</h3>
+              <p>Discovery workshops, qualitative research, north-star mapping, KPI alignment.</p>
+            </article>
+            <article class="skill-card reveal" role="listitem">
+              <h3>Experience Design</h3>
+              <p>Systems thinking, responsive interfaces, accessibility-first design, storytelling.</p>
+            </article>
+            <article class="skill-card reveal" role="listitem">
+              <h3>Front-end Engineering</h3>
+              <p>Semantic HTML, scalable CSS, design tokens, component-driven development.</p>
+            </article>
+            <article class="skill-card reveal" role="listitem">
+              <h3>Collaboration</h3>
+              <p>Facilitation, stakeholder alignment, remote-first rituals, mentoring designers.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="container">
+          <div class="section__header reveal">
+            <span class="eyebrow">Projects</span>
+            <h2>Selected work shaping product stories.</h2>
+          </div>
+          <div class="projects-grid">
+            <article class="project-card reveal">
+              <div class="project-card__meta">
+                <span class="tag">Design System</span>
+                <span class="project-year">2024</span>
+              </div>
+              <h3>Nova Platform</h3>
+              <p>
+                Led a multi-platform design system reimagining onboarding, analytics, and
+                collaboration workflows for a fast-scaling SaaS product.
+              </p>
+              <ul class="project-details">
+                <li>Unified 60+ components with accessibility baked in.</li>
+                <li>Cut delivery time in half across three engineering squads.</li>
+              </ul>
+              <a class="project-link" href="#">View case study</a>
+            </article>
+
+            <article class="project-card reveal">
+              <div class="project-card__meta">
+                <span class="tag">Product Design</span>
+                <span class="project-year">2023</span>
+              </div>
+              <h3>Atlas Dashboard</h3>
+              <p>
+                Crafted an adaptive analytics experience with scenario modeling and executive
+                storytelling dashboards for a fintech platform.
+              </p>
+              <ul class="project-details">
+                <li>Reduced analysis friction through tailored journeys.</li>
+                <li>Increased engagement by 37% with narrative data views.</li>
+              </ul>
+              <a class="project-link" href="#">Explore the narrative</a>
+            </article>
+
+            <article class="project-card reveal">
+              <div class="project-card__meta">
+                <span class="tag">Venture Launch</span>
+                <span class="project-year">2022</span>
+              </div>
+              <h3>Northbound Studio</h3>
+              <p>
+                Built the brand, messaging, and interactive web presence for a creative studio
+                helping mission-driven teams tell their story.
+              </p>
+              <ul class="project-details">
+                <li>Grew inbound inquiries 4x within the first quarter.</li>
+                <li>Introduced a modular content model for agile updates.</li>
+              </ul>
+              <a class="project-link" href="#">See the experience</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience" class="section section--surface">
+        <div class="container">
+          <div class="section__header reveal">
+            <span class="eyebrow">Experience</span>
+            <h2>Snapshots from the journey so far.</h2>
+          </div>
+          <ol class="timeline" role="list">
+            <li class="timeline__item reveal">
+              <div class="timeline__marker" aria-hidden="true"></div>
+              <div>
+                <h3>Principal Product Designer · Lumen Collective</h3>
+                <span class="timeline__meta">2021 — Present</span>
+                <p>
+                  Leading cross-functional teams shipping enterprise platforms, mobile apps, and
+                  immersive stories for climate-tech and healthcare partners.
+                </p>
+              </div>
+            </li>
+            <li class="timeline__item reveal">
+              <div class="timeline__marker" aria-hidden="true"></div>
+              <div>
+                <h3>Design Lead · Compass Labs</h3>
+                <span class="timeline__meta">2018 — 2021</span>
+                <p>
+                  Shaped product vision, prototyped new AI-assisted workflows, and rolled out
+                  cohesive brand systems across web and native apps.
+                </p>
+              </div>
+            </li>
+            <li class="timeline__item reveal">
+              <div class="timeline__marker" aria-hidden="true"></div>
+              <div>
+                <h3>Interaction Designer · Freelance</h3>
+                <span class="timeline__meta">2016 — 2018</span>
+                <p>
+                  Partnered with agencies and startups to deliver research-led websites, marketing
+                  campaigns, and product experiments.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="contact" class="section">
+        <div class="container">
+          <div class="contact-card reveal">
+            <span class="eyebrow">Contact</span>
+            <h2>Let's design what's next together.</h2>
+            <p>
+              I'm currently partnering with teams on product definition, design systems, and launch
+              storytelling. Tell me about your challenge—I'd love to help make it real.
+            </p>
+            <div class="contact-actions">
+              <a class="btn btn--primary" href="mailto:tommy@studiooh.com">tommy@studiooh.com</a>
+              <div class="contact-links">
+                <a href="https://www.linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
+                <a href="https://dribbble.com" target="_blank" rel="noreferrer">Dribbble</a>
+                <a href="https://behance.net" target="_blank" rel="noreferrer">Behance</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer__inner">
+        <p>© <span id="year"></span> Tommy Oh. Crafted with curiosity and care.</p>
+        <a class="footer__link" href="#top">Back to top</a>
+      </div>
+    </footer>
+
+    <a class="back-to-top" href="#top" aria-label="Back to top">
+      <span aria-hidden="true">↑</span>
+    </a>
+  </body>
+</html>
