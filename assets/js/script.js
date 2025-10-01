@@ -3,6 +3,8 @@ const navToggle = document.querySelector('.nav-toggle');
 const navMenu = document.querySelector('#nav-menu');
 const filterButtons = document.querySelectorAll('.filter-btn');
 const projectCards = document.querySelectorAll('.project-card');
+const projectLayout = document.querySelector('.project-layout');
+const projectSidebar = document.querySelector('.project-sidebar');
 const themeToggle = document.querySelector('.theme-toggle');
 const cursor = document.querySelector('.cursor');
 const sections = document.querySelectorAll('section[id]');
@@ -62,6 +64,38 @@ filterButtons.forEach((button) => {
     });
   });
 });
+
+// Projects sidebar navigation (visible when projects exceed five)
+if (projectCards.length >= 5 && projectLayout && projectSidebar) {
+  const list = projectSidebar.querySelector('.project-sidebar__list');
+
+  if (list) {
+    projectLayout.classList.add('has-sidebar');
+    projectSidebar.hidden = false;
+
+    projectCards.forEach((card, index) => {
+      if (!card.id) {
+        card.id = `project-${index + 1}`;
+      }
+
+      const title = card.querySelector('h3')?.textContent?.trim() ?? `Project ${index + 1}`;
+
+      const listItem = document.createElement('li');
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'project-sidebar__button';
+      button.textContent = title;
+      button.addEventListener('click', () => {
+        document.getElementById(card.id)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.classList.add('is-highlighted');
+        setTimeout(() => card.classList.remove('is-highlighted'), 1200);
+      });
+
+      listItem.appendChild(button);
+      list.appendChild(listItem);
+    });
+  }
+}
 
 // Theme toggle with preference persistence
 const storedTheme = localStorage.getItem('preferred-theme');
@@ -133,6 +167,31 @@ if (floatingCard) {
     const y = (event.clientY / innerHeight - 0.5) * 10;
     floatingCard.style.transform = `translateY(${y}px) rotateX(${y / 5}deg) rotateY(${x / 5}deg)`;
   });
+}
+
+// Timeline collapsible control (show more when more than three items)
+const timelineElement = document.querySelector('.timeline');
+if (timelineElement) {
+  const timelineItems = Array.from(timelineElement.querySelectorAll('.timeline-item'));
+  if (timelineItems.length > 3) {
+    timelineElement.classList.add('is-collapsible');
+    const hiddenItems = timelineItems.slice(3);
+    hiddenItems.forEach((item) => item.classList.add('is-collapsed'));
+
+    const toggleButton = document.createElement('button');
+    toggleButton.type = 'button';
+    toggleButton.className = 'timeline-toggle';
+    toggleButton.setAttribute('aria-expanded', 'false');
+    toggleButton.textContent = 'Show full timeline';
+
+    toggleButton.addEventListener('click', () => {
+      const expanded = timelineElement.classList.toggle('is-expanded');
+      toggleButton.setAttribute('aria-expanded', String(expanded));
+      toggleButton.textContent = expanded ? 'Show less' : 'Show full timeline';
+    });
+
+    timelineElement.after(toggleButton);
+  }
 }
 
 // Reduce motion preference
