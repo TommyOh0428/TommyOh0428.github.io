@@ -29,6 +29,7 @@
             <li><a href="#skills" data-section="skills">Skills</a></li>
             <li><a href="#projects" data-section="projects">Projects</a></li>
             <li><a href="#experience" data-section="experience">Experience</a></li>
+            <li><a href="#resume" data-section="resume">Resume</a></li>
             <li><a href="#contact" data-section="contact">Contact</a></li>
           </ul>
         </nav>
@@ -152,51 +153,57 @@
             <button class="filter-btn" data-filter="development">Development</button>
             <button class="filter-btn" data-filter="strategy">Strategy</button>
           </div>
-          <div class="project-grid">
-            <article class="project-card" data-category="design development">
-              <div class="project-card__header">
-                <span class="tag">Design System</span>
-                <h3>Nova UI</h3>
-              </div>
-              <p>
-                Led the creation of a scalable design system, boosting design velocity by
-                60% across four product squads.
-              </p>
-              <a href="#" class="project-link">View case study</a>
-            </article>
-            <article class="project-card" data-category="development">
-              <div class="project-card__header">
-                <span class="tag">Web App</span>
-                <h3>Atlas Dashboard</h3>
-              </div>
-              <p>
-                Engineered a data-rich analytics dashboard with immersive micro-interactions
-                and lightning-fast performance.
-              </p>
-              <a href="#" class="project-link">View case study</a>
-            </article>
-            <article class="project-card" data-category="strategy design">
-              <div class="project-card__header">
-                <span class="tag">Product Strategy</span>
-                <h3>Lumen Health</h3>
-              </div>
-              <p>
-                Guided a health-tech startup from research synthesis to roadmap, shaping a
-                cohesive patient experience.
-              </p>
-              <a href="#" class="project-link">View case study</a>
-            </article>
-            <article class="project-card" data-category="design">
-              <div class="project-card__header">
-                <span class="tag">Mobile</span>
-                <h3>Echo Journal</h3>
-              </div>
-              <p>
-                Crafted a mindful journaling app with adaptive theming and inclusive design
-                principles baked in.
-              </p>
-              <a href="#" class="project-link">View case study</a>
-            </article>
+          <div class="project-layout">
+            <aside class="project-sidebar" aria-label="Project navigation" hidden>
+              <h3 class="project-sidebar__title">Jump to a project</h3>
+              <ol class="project-sidebar__list"></ol>
+            </aside>
+            <div class="project-grid">
+              <article class="project-card" data-category="design development">
+                <div class="project-card__header">
+                  <span class="tag">Design System</span>
+                  <h3>Nova UI</h3>
+                </div>
+                <p>
+                  Led the creation of a scalable design system, boosting design velocity by
+                  60% across four product squads.
+                </p>
+                <a href="#" class="project-link">View case study</a>
+              </article>
+              <article class="project-card" data-category="development">
+                <div class="project-card__header">
+                  <span class="tag">Web App</span>
+                  <h3>Atlas Dashboard</h3>
+                </div>
+                <p>
+                  Engineered a data-rich analytics dashboard with immersive micro-interactions
+                  and lightning-fast performance.
+                </p>
+                <a href="#" class="project-link">View case study</a>
+              </article>
+              <article class="project-card" data-category="strategy design">
+                <div class="project-card__header">
+                  <span class="tag">Product Strategy</span>
+                  <h3>Lumen Health</h3>
+                </div>
+                <p>
+                  Guided a health-tech startup from research synthesis to roadmap, shaping a
+                  cohesive patient experience.
+                </p>
+                <a href="#" class="project-link">View case study</a>
+              </article>
+              <article class="project-card" data-category="design">
+                <div class="project-card__header">
+                  <span class="tag">Mobile</span>
+                  <h3>Echo Journal</h3>
+                </div>
+                <p>
+                  Crafted a mindful journaling app with adaptive theming and inclusive design
+                  principles baked in.
+                </p>
+                <a href="#" class="project-link">View case study</a>
+              </article>
+            </div>
           </div>
         </div>
       </section>
@@ -241,6 +248,36 @@
                 </p>
               </div>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="resume" class="section section--gradient" aria-labelledby="resume-title">
+        <div class="container">
+          <div class="section-header">
+            <p class="eyebrow">Resume</p>
+            <h2 id="resume-title">Explore my experience at a glance</h2>
+          </div>
+          <div class="resume-viewer">
+            <object
+              data="assets/resume/Tommy_Oh_Resume.pdf"
+              type="application/pdf"
+              aria-label="Resume preview"
+              class="resume-preview"
+            >
+              <p>
+                Your browser does not support viewing embedded PDFs. You can download my resume
+                <a href="assets/resume/Tommy_Oh_Resume.pdf">here</a>.
+              </p>
+            </object>
+            <a
+              class="btn primary resume-download"
+              href="assets/resume/Tommy_Oh_Resume.pdf"
+              target="_blank"
+              rel="noopener"
+            >
+              Download resume
+            </a>
           </div>
         </div>
       </section>
