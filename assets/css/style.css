@@ -305,6 +305,7 @@ body::before {
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
   backdrop-filter: blur(16px);
+  color: black;
 }
 
 .highlight-card h3 {
@@ -337,7 +338,7 @@ body::before {
 }
 
 .skill-card {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 60, 0.5);
   border-radius: 24px;
   padding: 2rem;
   border: 1px solid var(--border);
@@ -400,6 +401,7 @@ body::before {
 .project-card {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 28px;
+  color: black;
   padding: 2rem;
   border: 1px solid var(--border);
   position: relative;
