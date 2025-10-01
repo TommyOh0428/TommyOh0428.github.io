@@ -66,7 +66,7 @@ filterButtons.forEach((button) => {
 });
 
 // Projects sidebar navigation (visible when projects exceed five)
-if (projectCards.length > 5 && projectLayout && projectSidebar) {
+if (projectCards.length >= 5 && projectLayout && projectSidebar) {
   const list = projectSidebar.querySelector('.project-sidebar__list');
 
   if (list) {
