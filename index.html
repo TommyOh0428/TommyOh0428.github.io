@@ -37,6 +37,7 @@
             <li><a href="#about" data-nav="about">About</a></li>
             <li><a href="#skills" data-nav="skills">Skills</a></li>
             <li><a href="#projects" data-nav="projects">Projects</a></li>
+            <li><a href="#resume" data-nav="resume">Resume</a></li>
             <li><a href="#experience" data-nav="experience">Experience</a></li>
             <li><a href="#contact" data-nav="contact">Contact</a></li>
           </ul>
@@ -164,57 +165,70 @@
             <span class="eyebrow">Projects</span>
             <h2>Selected work shaping product stories.</h2>
           </div>
-          <div class="projects-grid">
-            <article class="project-card reveal">
-              <div class="project-card__meta">
-                <span class="tag">Design System</span>
-                <span class="project-year">2024</span>
+          <div class="projects-layout">
+            <aside
+              class="projects-sidebar reveal"
+              aria-label="Project navigation"
+              data-project-sidebar
+              hidden
+            >
+              <div class="projects-sidebar__inner">
+                <h3>Browse projects</h3>
+                <ol class="projects-sidebar__list" data-project-sidebar-list></ol>
               </div>
-              <h3>Nova Platform</h3>
-              <p>
-                Led a multi-platform design system reimagining onboarding, analytics, and
-                collaboration workflows for a fast-scaling SaaS product.
-              </p>
-              <ul class="project-details">
-                <li>Unified 60+ components with accessibility baked in.</li>
-                <li>Cut delivery time in half across three engineering squads.</li>
-              </ul>
-              <a class="project-link" href="#">View case study</a>
-            </article>
+            </aside>
+            <div class="projects-grid" data-project-list>
+              <article class="project-card reveal">
+                <div class="project-card__meta">
+                  <span class="tag">Design System</span>
+                  <span class="project-year">2024</span>
+                </div>
+                <h3>Nova Platform</h3>
+                <p>
+                  Led a multi-platform design system reimagining onboarding, analytics, and
+                  collaboration workflows for a fast-scaling SaaS product.
+                </p>
+                <ul class="project-details">
+                  <li>Unified 60+ components with accessibility baked in.</li>
+                  <li>Cut delivery time in half across three engineering squads.</li>
+                </ul>
+                <a class="project-link" href="#">View case study</a>
+              </article>
 
-            <article class="project-card reveal">
-              <div class="project-card__meta">
-                <span class="tag">Product Design</span>
-                <span class="project-year">2023</span>
-              </div>
-              <h3>Atlas Dashboard</h3>
-              <p>
-                Crafted an adaptive analytics experience with scenario modeling and executive
-                storytelling dashboards for a fintech platform.
-              </p>
-              <ul class="project-details">
-                <li>Reduced analysis friction through tailored journeys.</li>
-                <li>Increased engagement by 37% with narrative data views.</li>
-              </ul>
-              <a class="project-link" href="#">Explore the narrative</a>
-            </article>
+              <article class="project-card reveal">
+                <div class="project-card__meta">
+                  <span class="tag">Product Design</span>
+                  <span class="project-year">2023</span>
+                </div>
+                <h3>Atlas Dashboard</h3>
+                <p>
+                  Crafted an adaptive analytics experience with scenario modeling and executive
+                  storytelling dashboards for a fintech platform.
+                </p>
+                <ul class="project-details">
+                  <li>Reduced analysis friction through tailored journeys.</li>
+                  <li>Increased engagement by 37% with narrative data views.</li>
+                </ul>
+                <a class="project-link" href="#">Explore the narrative</a>
+              </article>
 
-            <article class="project-card reveal">
-              <div class="project-card__meta">
-                <span class="tag">Venture Launch</span>
-                <span class="project-year">2022</span>
-              </div>
-              <h3>Northbound Studio</h3>
-              <p>
-                Built the brand, messaging, and interactive web presence for a creative studio
-                helping mission-driven teams tell their story.
-              </p>
-              <ul class="project-details">
-                <li>Grew inbound inquiries 4x within the first quarter.</li>
-                <li>Introduced a modular content model for agile updates.</li>
-              </ul>
-              <a class="project-link" href="#">See the experience</a>
-            </article>
+              <article class="project-card reveal">
+                <div class="project-card__meta">
+                  <span class="tag">Venture Launch</span>
+                  <span class="project-year">2022</span>
+                </div>
+                <h3>Northbound Studio</h3>
+                <p>
+                  Built the brand, messaging, and interactive web presence for a creative studio
+                  helping mission-driven teams tell their story.
+                </p>
+                <ul class="project-details">
+                  <li>Grew inbound inquiries 4x within the first quarter.</li>
+                  <li>Introduced a modular content model for agile updates.</li>
+                </ul>
+                <a class="project-link" href="#">See the experience</a>
+              </article>
+            </div>
           </div>
         </div>
       </section>
@@ -225,7 +239,7 @@
             <span class="eyebrow">Experience</span>
             <h2>Snapshots from the journey so far.</h2>
           </div>
-          <ol class="timeline" role="list">
+          <ol class="timeline" role="list" data-timeline>
             <li class="timeline__item reveal">
               <div class="timeline__marker" aria-hidden="true"></div>
               <div>
@@ -259,7 +273,58 @@
                 </p>
               </div>
             </li>
+            <li class="timeline__item reveal">
+              <div class="timeline__marker" aria-hidden="true"></div>
+              <div>
+                <h3>UX Research Intern · Horizon Ventures</h3>
+                <span class="timeline__meta">2015 — 2016</span>
+                <p>
+                  Mapped customer journeys, synthesized research insights, and supported rapid
+                  prototyping across the venture studio's early product teams.
+                </p>
+              </div>
+            </li>
           </ol>
+          <div class="timeline__actions" data-timeline-actions hidden></div>
+        </div>
+      </section>
+
+      <section id="resume" class="section">
+        <div class="container">
+          <div class="section__header reveal">
+            <span class="eyebrow">Resume</span>
+            <h2>Explore my background at a glance.</h2>
+            <p>
+              Preview or download my latest resume to learn more about my product design and
+              front-end experience.
+            </p>
+          </div>
+          <div class="resume-panel reveal">
+            <div class="resume-panel__viewer">
+              <object
+                class="resume-panel__frame"
+                data="assets/resume/resume-preview.pdf"
+                type="application/pdf"
+                aria-label="Resume preview"
+              >
+                <p>
+                  Your browser doesn't support embedded PDFs. You can
+                  <a href="assets/resume/resume-preview.pdf" target="_blank" rel="noreferrer">
+                    open the resume in a new tab
+                  </a>
+                  instead.
+                </p>
+              </object>
+            </div>
+            <div class="resume-panel__actions">
+              <a class="btn btn--primary" href="assets/resume/resume-preview.pdf" download>
+                Download PDF
+              </a>
+              <a class="btn btn--ghost" href="assets/resume/resume-preview.pdf" target="_blank" rel="noreferrer">
+                Open in new tab
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -11,6 +11,11 @@
   const backToTop = document.querySelector('.back-to-top');
   const observerTargets = document.querySelectorAll('.reveal');
   const currentYearEl = document.getElementById('year');
+  const projectList = document.querySelector('[data-project-list]');
+  const projectSidebar = document.querySelector('[data-project-sidebar]');
+  const projectSidebarList = document.querySelector('[data-project-sidebar-list]');
+  const timeline = document.querySelector('[data-timeline]');
+  const timelineActions = document.querySelector('[data-timeline-actions]');
 
   function setTheme(theme) {
     const nextTheme = theme || (prefersDark.matches ? 'dark' : 'light');
@@ -35,6 +40,13 @@
   function toggleNav() {
     const isOpen = body.classList.toggle('nav-open');
     navToggle?.setAttribute('aria-expanded', String(isOpen));
+  }
+
+  function updateHeaderHeight() {
+    const header = document.querySelector('.site-header');
+    if (header) {
+      root.style.setProperty('--header-height', `${header.offsetHeight}px`);
+    }
   }
 
   function updateActiveLink() {
@@ -88,6 +100,90 @@
     observerTargets.forEach((el) => observer.observe(el));
   }
 
+  function setupProjectSidebar() {
+    if (!projectList || !projectSidebar || !projectSidebarList) return;
+
+    const cards = projectList.querySelectorAll('.project-card');
+
+    if (cards.length <= 5) {
+      projectSidebar.setAttribute('hidden', '');
+      projectSidebarList.innerHTML = '';
+      return;
+    }
+
+    projectSidebar.removeAttribute('hidden');
+    projectSidebarList.innerHTML = '';
+
+    cards.forEach((card, index) => {
+      if (!card.id) {
+        card.id = card.getAttribute('data-project-id') || `project-${index + 1}`;
+      }
+
+      const title = card.querySelector('h3')?.textContent?.trim() || `Project ${index + 1}`;
+      const listItem = document.createElement('li');
+      const link = document.createElement('a');
+
+      link.href = `#${card.id}`;
+      link.textContent = title;
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        const behavior = prefersReducedMotion.matches ? 'auto' : 'smooth';
+        document.getElementById(card.id)?.scrollIntoView({ behavior, block: 'start' });
+      });
+
+      listItem.appendChild(link);
+      projectSidebarList.appendChild(listItem);
+    });
+  }
+
+  function setupTimelineToggle() {
+    if (!timeline || !timelineActions) return;
+
+    const items = Array.from(timeline.querySelectorAll('.timeline__item'));
+    timelineActions.innerHTML = '';
+    if (items.length <= 3) {
+      timelineActions.setAttribute('hidden', '');
+      return;
+    }
+
+    timelineActions.removeAttribute('hidden');
+    timeline.dataset.state = 'collapsed';
+
+    items.forEach((item, index) => {
+      if (index >= 3) {
+        item.classList.add('timeline__item--collapsible');
+      }
+    });
+
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'timeline-toggle';
+
+    function setToggleState(expanded) {
+      toggle.setAttribute('aria-expanded', String(expanded));
+      toggle.textContent = expanded ? 'Hide timeline' : 'Show full timeline';
+    }
+
+    setToggleState(false);
+
+    toggle.addEventListener('click', () => {
+      const expanded = timeline.dataset.state === 'expanded';
+      const nextExpanded = !expanded;
+      timeline.dataset.state = nextExpanded ? 'expanded' : 'collapsed';
+      setToggleState(nextExpanded);
+
+      if (nextExpanded) {
+        items.forEach((item, index) => {
+          if (index >= 3) {
+            requestAnimationFrame(() => item.classList.add('is-visible'));
+          }
+        });
+      }
+    });
+
+    timelineActions.appendChild(toggle);
+  }
+
   function bindEvents() {
     navToggle?.addEventListener('click', toggleNav);
 
@@ -96,6 +192,9 @@
         closeNav();
       });
     });
+
+    window.addEventListener('load', updateHeaderHeight);
+    window.addEventListener('resize', updateHeaderHeight);
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
@@ -131,6 +230,9 @@
     initReveal();
     updateActiveLink();
     updateBackToTop();
+    setupProjectSidebar();
+    setupTimelineToggle();
+    updateHeaderHeight();
 
     if (currentYearEl) {
       currentYearEl.textContent = new Date().getFullYear();
