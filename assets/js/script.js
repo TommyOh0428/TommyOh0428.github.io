@@ -1,15 +1,15 @@
 const body = document.body;
-const navToggle = document.querySelector('.nav-toggle');
-const navMenu = document.querySelector('#nav-menu');
-const filterButtons = document.querySelectorAll('.filter-btn');
-const projectCards = document.querySelectorAll('.project-card');
-const projectLayout = document.querySelector('.project-layout');
-const projectSidebar = document.querySelector('.project-sidebar');
-const themeToggle = document.querySelector('.theme-toggle');
-const cursor = document.querySelector('.cursor');
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.primary-nav a[data-section]');
-const yearEl = document.querySelector('#year');
+const navToggle = document.querySelector(".nav-toggle");
+const navMenu = document.querySelector("#nav-menu");
+const filterButtons = document.querySelectorAll(".filter-btn");
+const projectCards = document.querySelectorAll(".project-card");
+const projectLayout = document.querySelector(".project-layout");
+const projectSidebar = document.querySelector(".project-sidebar");
+const themeToggle = document.querySelector(".theme-toggle");
+const cursor = document.querySelector(".cursor");
+const sections = document.querySelectorAll("section[id]");
+const navLinks = document.querySelectorAll(".primary-nav a[data-section]");
+const yearEl = document.querySelector("#year");
 
 // Set current year in footer
 if (yearEl) {
@@ -18,59 +18,63 @@ if (yearEl) {
 
 // Custom cursor interaction
 if (cursor) {
-  document.addEventListener('pointermove', (event) => {
+  document.addEventListener("pointermove", (event) => {
     cursor.style.left = `${event.clientX}px`;
     cursor.style.top = `${event.clientY}px`;
   });
 
-  document.querySelectorAll('a, button').forEach((interactive) => {
-    interactive.addEventListener('pointerenter', () => cursor.classList.add('is-active'));
-    interactive.addEventListener('pointerleave', () => cursor.classList.remove('is-active'));
+  document.querySelectorAll("a, button").forEach((interactive) => {
+    interactive.addEventListener("pointerenter", () =>
+      cursor.classList.add("is-active")
+    );
+    interactive.addEventListener("pointerleave", () =>
+      cursor.classList.remove("is-active")
+    );
   });
 }
 
 // Navigation toggle for mobile
 if (navToggle && navMenu) {
-  navToggle.addEventListener('click', () => {
-    const expanded = navToggle.getAttribute('aria-expanded') === 'true';
-    navToggle.setAttribute('aria-expanded', String(!expanded));
-    navMenu.classList.toggle('is-open');
-    navToggle.classList.toggle('is-open');
+  navToggle.addEventListener("click", () => {
+    const expanded = navToggle.getAttribute("aria-expanded") === "true";
+    navToggle.setAttribute("aria-expanded", String(!expanded));
+    navMenu.classList.toggle("is-open");
+    navToggle.classList.toggle("is-open");
   });
 
   navLinks.forEach((link) => {
-    link.addEventListener('click', () => {
-      navToggle.setAttribute('aria-expanded', 'false');
-      navMenu.classList.remove('is-open');
-      navToggle.classList.remove('is-open');
+    link.addEventListener("click", () => {
+      navToggle.setAttribute("aria-expanded", "false");
+      navMenu.classList.remove("is-open");
+      navToggle.classList.remove("is-open");
     });
   });
 }
 
 // Project filtering interaction
 filterButtons.forEach((button) => {
-  button.addEventListener('click', () => {
-    filterButtons.forEach((btn) => btn.classList.remove('is-active'));
-    button.classList.add('is-active');
+  button.addEventListener("click", () => {
+    filterButtons.forEach((btn) => btn.classList.remove("is-active"));
+    button.classList.add("is-active");
 
     const filter = button.dataset.filter;
 
     projectCards.forEach((card) => {
-      const categories = card.dataset.category.split(' ');
-      const isVisible = filter === 'all' || categories.includes(filter);
-      card.style.opacity = isVisible ? '1' : '0.2';
-      card.style.pointerEvents = isVisible ? 'auto' : 'none';
-      card.style.filter = isVisible ? 'none' : 'grayscale(0.8)';
+      const categories = card.dataset.category.split(" ");
+      const isVisible = filter === "all" || categories.includes(filter);
+      card.style.opacity = isVisible ? "1" : "0.2";
+      card.style.pointerEvents = isVisible ? "auto" : "none";
+      card.style.filter = isVisible ? "none" : "grayscale(0.8)";
     });
   });
 });
 
 // Projects sidebar navigation (visible when projects exceed five)
 if (projectCards.length >= 5 && projectLayout && projectSidebar) {
-  const list = projectSidebar.querySelector('.project-sidebar__list');
+  const list = projectSidebar.querySelector(".project-sidebar__list");
 
   if (list) {
-    projectLayout.classList.add('has-sidebar');
+    projectLayout.classList.add("has-sidebar");
     projectSidebar.hidden = false;
 
     projectCards.forEach((card, index) => {
@@ -78,17 +82,20 @@ if (projectCards.length >= 5 && projectLayout && projectSidebar) {
         card.id = `project-${index + 1}`;
       }
 
-      const title = card.querySelector('h3')?.textContent?.trim() ?? `Project ${index + 1}`;
+      const title =
+        card.querySelector("h3")?.textContent?.trim() ?? `Project ${index + 1}`;
 
-      const listItem = document.createElement('li');
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'project-sidebar__button';
+      const listItem = document.createElement("li");
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "project-sidebar__button";
       button.textContent = title;
-      button.addEventListener('click', () => {
-        document.getElementById(card.id)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        card.classList.add('is-highlighted');
-        setTimeout(() => card.classList.remove('is-highlighted'), 1200);
+      button.addEventListener("click", () => {
+        document
+          .getElementById(card.id)
+          ?.scrollIntoView({ behavior: "smooth", block: "center" });
+        card.classList.add("is-highlighted");
+        setTimeout(() => card.classList.remove("is-highlighted"), 1200);
       });
 
       listItem.appendChild(button);
@@ -98,32 +105,34 @@ if (projectCards.length >= 5 && projectLayout && projectSidebar) {
 }
 
 // Theme toggle with preference persistence
-const storedTheme = localStorage.getItem('preferred-theme');
+const storedTheme = localStorage.getItem("preferred-theme");
 if (storedTheme) {
-  body.setAttribute('data-theme', storedTheme);
-} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  body.setAttribute('data-theme', 'dark');
+  body.setAttribute("data-theme", storedTheme);
+} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+  body.setAttribute("data-theme", "dark");
 }
 
 const toggleTheme = () => {
-  const currentTheme = body.getAttribute('data-theme');
-  const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  body.setAttribute('data-theme', nextTheme);
-  localStorage.setItem('preferred-theme', nextTheme);
+  const currentTheme = body.getAttribute("data-theme");
+  const nextTheme = currentTheme === "dark" ? "light" : "dark";
+  body.setAttribute("data-theme", nextTheme);
+  localStorage.setItem("preferred-theme", nextTheme);
 };
 
-themeToggle?.addEventListener('click', toggleTheme);
+themeToggle?.addEventListener("click", toggleTheme);
 
 // Scroll spy to highlight navigation
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
-      const link = document.querySelector(`.primary-nav a[data-section="${entry.target.id}"]`);
+      const link = document.querySelector(
+        `.primary-nav a[data-section="${entry.target.id}"]`
+      );
       if (!link) return;
 
       if (entry.isIntersecting) {
-        navLinks.forEach((navLink) => navLink.classList.remove('is-active'));
-        link.classList.add('is-active');
+        navLinks.forEach((navLink) => navLink.classList.remove("is-active"));
+        link.classList.add("is-active");
       }
     });
   },
@@ -136,14 +145,14 @@ sections.forEach((section) => observer.observe(section));
 
 // Animate elements on scroll
 const animatedElements = document.querySelectorAll(
-  '.section, .skill-card, .project-card, .timeline-item, .highlight-card'
+  ".section, .skill-card, .project-card, .timeline-item, .highlight-card"
 );
 
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
+        entry.target.classList.add("is-visible");
         revealObserver.unobserve(entry.target);
       }
     });
@@ -154,40 +163,44 @@ const revealObserver = new IntersectionObserver(
 );
 
 animatedElements.forEach((el) => {
-  el.classList.add('will-animate');
+  el.classList.add("will-animate");
   revealObserver.observe(el);
 });
 
 // Floating card parallax
-const floatingCard = document.querySelector('.floating-card');
+const floatingCard = document.querySelector(".floating-card");
 if (floatingCard) {
-  window.addEventListener('pointermove', (event) => {
+  window.addEventListener("pointermove", (event) => {
     const { innerWidth, innerHeight } = window;
     const x = (event.clientX / innerWidth - 0.5) * 10;
     const y = (event.clientY / innerHeight - 0.5) * 10;
-    floatingCard.style.transform = `translateY(${y}px) rotateX(${y / 5}deg) rotateY(${x / 5}deg)`;
+    floatingCard.style.transform = `translateY(${y}px) rotateX(${
+      y / 5
+    }deg) rotateY(${x / 5}deg)`;
   });
 }
 
 // Timeline collapsible control (show more when more than three items)
-const timelineElement = document.querySelector('.timeline');
+const timelineElement = document.querySelector(".timeline");
 if (timelineElement) {
-  const timelineItems = Array.from(timelineElement.querySelectorAll('.timeline-item'));
+  const timelineItems = Array.from(
+    timelineElement.querySelectorAll(".timeline-item")
+  );
   if (timelineItems.length > 3) {
-    timelineElement.classList.add('is-collapsible');
+    timelineElement.classList.add("is-collapsible");
     const hiddenItems = timelineItems.slice(3);
-    hiddenItems.forEach((item) => item.classList.add('is-collapsed'));
+    hiddenItems.forEach((item) => item.classList.add("is-collapsed"));
 
-    const toggleButton = document.createElement('button');
-    toggleButton.type = 'button';
-    toggleButton.className = 'timeline-toggle';
-    toggleButton.setAttribute('aria-expanded', 'false');
-    toggleButton.textContent = 'Show full timeline';
+    const toggleButton = document.createElement("button");
+    toggleButton.type = "button";
+    toggleButton.className = "timeline-toggle";
+    toggleButton.setAttribute("aria-expanded", "false");
+    toggleButton.textContent = "Show full timeline";
 
-    toggleButton.addEventListener('click', () => {
-      const expanded = timelineElement.classList.toggle('is-expanded');
-      toggleButton.setAttribute('aria-expanded', String(expanded));
-      toggleButton.textContent = expanded ? 'Show less' : 'Show full timeline';
+    toggleButton.addEventListener("click", () => {
+      const expanded = timelineElement.classList.toggle("is-expanded");
+      toggleButton.setAttribute("aria-expanded", String(expanded));
+      toggleButton.textContent = expanded ? "Show less" : "Show full timeline";
     });
 
     timelineElement.after(toggleButton);
@@ -195,22 +208,62 @@ if (timelineElement) {
 }
 
 // Reduce motion preference
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+);
 if (prefersReducedMotion.matches) {
-  document.querySelectorAll('*').forEach((element) => {
-    element.style.setProperty('animation-duration', '0.001ms');
-    element.style.setProperty('animation-iteration-count', '1');
-    element.style.setProperty('transition-duration', '0.001ms');
+  document.querySelectorAll("*").forEach((element) => {
+    element.style.setProperty("animation-duration", "0.001ms");
+    element.style.setProperty("animation-iteration-count", "1");
+    element.style.setProperty("transition-duration", "0.001ms");
   });
 }
 
 // Accessibility: close nav when clicking outside
 if (navMenu) {
-  document.addEventListener('click', (event) => {
+  document.addEventListener("click", (event) => {
     if (!navMenu.contains(event.target) && !navToggle?.contains(event.target)) {
-      navMenu.classList.remove('is-open');
-      navToggle?.setAttribute('aria-expanded', 'false');
-      navToggle?.classList.remove('is-open');
+      navMenu.classList.remove("is-open");
+      navToggle?.setAttribute("aria-expanded", "false");
+      navToggle?.classList.remove("is-open");
+    }
+  });
+}
+
+// Projects toggle functionality
+const projectsToggle = document.querySelector(".projects-toggle");
+const hiddenProjects = document.querySelectorAll(".project-card--hidden");
+const projectsSection = document.getElementById("projects");
+
+if (projectsToggle && hiddenProjects.length > 0) {
+  projectsToggle.addEventListener("click", () => {
+    const isExpanded = projectsToggle.getAttribute("aria-expanded") === "true";
+
+    if (isExpanded) {
+      // Store current scroll position and the project section's position
+      const currentScrollY = window.pageYOffset;
+      const projectsSectionTop = projectsSection.offsetTop;
+
+      // Hide extra projects
+      hiddenProjects.forEach((project) => {
+        project.classList.add("project-card--hidden");
+      });
+      projectsToggle.setAttribute("aria-expanded", "false");
+      projectsToggle.innerHTML =
+        'Show more projects <span class="projects-toggle__icon" aria-hidden="true">↓</span>';
+
+      // Immediately restore scroll position to keep user at projects section
+      const newProjectsSectionTop = projectsSection.offsetTop;
+      const scrollDiff = projectsSectionTop - newProjectsSectionTop;
+      window.scrollTo(0, currentScrollY - scrollDiff);
+    } else {
+      // Show extra projects
+      hiddenProjects.forEach((project) => {
+        project.classList.remove("project-card--hidden");
+      });
+      projectsToggle.setAttribute("aria-expanded", "true");
+      projectsToggle.innerHTML =
+        'Show fewer projects <span class="projects-toggle__icon" aria-hidden="true">↑</span>';
     }
   });
 }
