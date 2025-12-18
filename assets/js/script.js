@@ -1,269 +1,202 @@
-const body = document.body;
-const navToggle = document.querySelector(".nav-toggle");
-const navMenu = document.querySelector("#nav-menu");
-const filterButtons = document.querySelectorAll(".filter-btn");
-const projectCards = document.querySelectorAll(".project-card");
-const projectLayout = document.querySelector(".project-layout");
-const projectSidebar = document.querySelector(".project-sidebar");
-const themeToggle = document.querySelector(".theme-toggle");
-const cursor = document.querySelector(".cursor");
-const sections = document.querySelectorAll("section[id]");
-const navLinks = document.querySelectorAll(".primary-nav a[data-section]");
-const yearEl = document.querySelector("#year");
+import { profileInfoContent } from "./profile.js";
+import { experienceContent } from "./experience.js";
+import { projects } from "./projects.js";
+import { papers } from "./papers.js";
 
-// Set current year in footer
-if (yearEl) {
-  yearEl.textContent = new Date().getFullYear();
-}
+// --- FUNCTIONS ---
 
-// Custom cursor interaction
-if (cursor) {
-  document.addEventListener("pointermove", (event) => {
-    cursor.style.left = `${event.clientX}px`;
-    cursor.style.top = `${event.clientY}px`;
-  });
-
-  document.querySelectorAll("a, button").forEach((interactive) => {
-    interactive.addEventListener("pointerenter", () =>
-      cursor.classList.add("is-active")
-    );
-    interactive.addEventListener("pointerleave", () =>
-      cursor.classList.remove("is-active")
-    );
-  });
-}
-
-// Navigation toggle for mobile
-if (navToggle && navMenu) {
-  navToggle.addEventListener("click", () => {
-    const expanded = navToggle.getAttribute("aria-expanded") === "true";
-    navToggle.setAttribute("aria-expanded", String(!expanded));
-    navMenu.classList.toggle("is-open");
-    navToggle.classList.toggle("is-open");
-  });
-
-  navLinks.forEach((link) => {
-    link.addEventListener("click", () => {
-      navToggle.setAttribute("aria-expanded", "false");
-      navMenu.classList.remove("is-open");
-      navToggle.classList.remove("is-open");
-    });
-  });
-}
-
-// Project filtering interaction
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    filterButtons.forEach((btn) => btn.classList.remove("is-active"));
-    button.classList.add("is-active");
-
-    const filter = button.dataset.filter;
-
-    projectCards.forEach((card) => {
-      const categories = card.dataset.category.split(" ");
-      const isVisible = filter === "all" || categories.includes(filter);
-      card.style.opacity = isVisible ? "1" : "0.2";
-      card.style.pointerEvents = isVisible ? "auto" : "none";
-      card.style.filter = isVisible ? "none" : "grayscale(0.8)";
-    });
-  });
-});
-
-// Projects sidebar navigation (visible when projects exceed five)
-if (projectCards.length >= 5 && projectLayout && projectSidebar) {
-  const list = projectSidebar.querySelector(".project-sidebar__list");
-
-  if (list) {
-    projectLayout.classList.add("has-sidebar");
-    projectSidebar.hidden = false;
-
-    projectCards.forEach((card, index) => {
-      if (!card.id) {
-        card.id = `project-${index + 1}`;
-      }
-
-      const title =
-        card.querySelector("h3")?.textContent?.trim() ?? `Project ${index + 1}`;
-
-      const listItem = document.createElement("li");
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "project-sidebar__button";
-      button.textContent = title;
-      button.addEventListener("click", () => {
-        document
-          .getElementById(card.id)
-          ?.scrollIntoView({ behavior: "smooth", block: "center" });
-        card.classList.add("is-highlighted");
-        setTimeout(() => card.classList.remove("is-highlighted"), 1200);
-      });
-
-      listItem.appendChild(button);
-      list.appendChild(listItem);
-    });
-  }
-}
-
-// Theme toggle with preference persistence
-const storedTheme = localStorage.getItem("preferred-theme");
-if (storedTheme) {
-  body.setAttribute("data-theme", storedTheme);
-} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-  body.setAttribute("data-theme", "dark");
-}
-
-const toggleTheme = () => {
-  const currentTheme = body.getAttribute("data-theme");
-  const nextTheme = currentTheme === "dark" ? "light" : "dark";
-  body.setAttribute("data-theme", nextTheme);
-  localStorage.setItem("preferred-theme", nextTheme);
-};
-
-themeToggle?.addEventListener("click", toggleTheme);
-
-// Scroll spy to highlight navigation
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      const link = document.querySelector(
-        `.primary-nav a[data-section="${entry.target.id}"]`
-      );
-      if (!link) return;
-
-      if (entry.isIntersecting) {
-        navLinks.forEach((navLink) => navLink.classList.remove("is-active"));
-        link.classList.add("is-active");
-      }
-    });
-  },
-  {
-    threshold: 0.4,
-  }
-);
-
-sections.forEach((section) => observer.observe(section));
-
-// Animate elements on scroll
-const animatedElements = document.querySelectorAll(
-  ".section, .skill-card, .project-card, .timeline-item, .highlight-card"
-);
-
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  },
-  {
-    threshold: 0.2,
-  }
-);
-
-animatedElements.forEach((el) => {
-  el.classList.add("will-animate");
-  revealObserver.observe(el);
-});
-
-// Floating card parallax
-const floatingCard = document.querySelector(".floating-card");
-if (floatingCard) {
-  window.addEventListener("pointermove", (event) => {
-    const { innerWidth, innerHeight } = window;
-    const x = (event.clientX / innerWidth - 0.5) * 10;
-    const y = (event.clientY / innerHeight - 0.5) * 10;
-    floatingCard.style.transform = `translateY(${y}px) rotateX(${
-      y / 5
-    }deg) rotateY(${x / 5}deg)`;
-  });
-}
-
-// Timeline collapsible control (show more when more than three items)
-const timelineElement = document.querySelector(".timeline");
-if (timelineElement) {
-  const timelineItems = Array.from(
-    timelineElement.querySelectorAll(".timeline-item")
+// Function to apply syntax highlighting/coloring after typing
+function formatTerminalOutput(text) {
+  // 1. Highlight success status (Profile Info & Experience)
+  text = text.replace(
+    /\[STATUS\] - Online\/Available/g,
+    "<span class='success'>[STATUS] - Online/Available</span>"
   );
-  if (timelineItems.length > 3) {
-    timelineElement.classList.add("is-collapsible");
-    const hiddenItems = timelineItems.slice(3);
-    hiddenItems.forEach((item) => item.classList.add("is-collapsed"));
+  text = text.replace(/\[SUCCESS\]/g, "<span class='success'>[SUCCESS]</span>");
 
-    const toggleButton = document.createElement("button");
-    toggleButton.type = "button";
-    toggleButton.className = "timeline-toggle";
-    toggleButton.setAttribute("aria-expanded", "false");
-    toggleButton.textContent = "Show full timeline";
+  // 2. Simple JSON key highlighting (yellow-400 in Tailwind-like color)
+  // This assumes the text is mostly JSON structure for the profile info
+  text = text.replace(
+    /"(\w+)":/g,
+    "<span class='text-yellow-400'>\"$1\"</span>:"
+  );
 
-    toggleButton.addEventListener("click", () => {
-      const expanded = timelineElement.classList.toggle("is-expanded");
-      toggleButton.setAttribute("aria-expanded", String(expanded));
-      toggleButton.textContent = expanded ? "Show less" : "Show full timeline";
-    });
+  // 3. Highlight array brackets in skills (red-400 in Tailwind-like color)
+  text = text.replace(/(\[[^\]]+\])/g, "<span class='text-red-400'>$1</span>");
 
-    timelineElement.after(toggleButton);
+  // 4. Highlight project and paper key details
+  text = text.replace(
+    /(Description|Tech|Impact|Features|Goal|Security|Abstract|Journal|Date|Citation|Conference|Keywords|Course Work|Topic|Title):/g,
+    "<span class='text-cyan-400'>$1:</span>"
+  );
+
+  return text;
+}
+
+// The core typing function
+function typeWriter(
+  elementId,
+  text,
+  cursorId,
+  speed = 25,
+  callback = () => {}
+) {
+  const element = document.getElementById(elementId);
+  const cursor = document.getElementById(cursorId);
+  if (!element) return;
+
+  // Ensure cursor is handled, though it might be null for content typing
+  if (cursor) {
+    let currentCursor = document.querySelector(`#${cursorId}`);
+    if (currentCursor) currentCursor.style.display = "inline-block"; // Show cursor
   }
-}
 
-// Reduce motion preference
-const prefersReducedMotion = window.matchMedia(
-  "(prefers-reduced-motion: reduce)"
-);
-if (prefersReducedMotion.matches) {
-  document.querySelectorAll("*").forEach((element) => {
-    element.style.setProperty("animation-duration", "0.001ms");
-    element.style.setProperty("animation-iteration-count", "1");
-    element.style.setProperty("transition-duration", "0.001ms");
-  });
-}
+  let i = 0;
+  element.innerHTML = ""; // Clear existing content
 
-// Accessibility: close nav when clicking outside
-if (navMenu) {
-  document.addEventListener("click", (event) => {
-    if (!navMenu.contains(event.target) && !navToggle?.contains(event.target)) {
-      navMenu.classList.remove("is-open");
-      navToggle?.setAttribute("aria-expanded", "false");
-      navToggle?.classList.remove("is-open");
-    }
-  });
-}
+  // We type the raw text content only, ignoring HTML tags for the animation
+  const rawText = text.replace(/<[^>]*>/g, "");
 
-// Projects toggle functionality
-const projectsToggle = document.querySelector(".projects-toggle");
-const hiddenProjects = document.querySelectorAll(".project-card--hidden");
-const projectsSection = document.getElementById("projects");
-
-if (projectsToggle && hiddenProjects.length > 0) {
-  projectsToggle.addEventListener("click", () => {
-    const isExpanded = projectsToggle.getAttribute("aria-expanded") === "true";
-
-    if (isExpanded) {
-      // Store current scroll position and the project section's position
-      const currentScrollY = window.pageYOffset;
-      const projectsSectionTop = projectsSection.offsetTop;
-
-      // Hide extra projects
-      hiddenProjects.forEach((project) => {
-        project.classList.add("project-card--hidden");
-      });
-      projectsToggle.setAttribute("aria-expanded", "false");
-      projectsToggle.innerHTML =
-        'Show more projects <span class="projects-toggle__icon" aria-hidden="true">↓</span>';
-
-      // Immediately restore scroll position to keep user at projects section
-      const newProjectsSectionTop = projectsSection.offsetTop;
-      const scrollDiff = projectsSectionTop - newProjectsSectionTop;
-      window.scrollTo(0, currentScrollY - scrollDiff);
+  function type() {
+    if (i < rawText.length) {
+      element.textContent += rawText.charAt(i);
+      i++;
+      setTimeout(type, speed);
     } else {
-      // Show extra projects
-      hiddenProjects.forEach((project) => {
-        project.classList.remove("project-card--hidden");
-      });
-      projectsToggle.setAttribute("aria-expanded", "true");
-      projectsToggle.innerHTML =
-        'Show fewer projects <span class="projects-toggle__icon" aria-hidden="true">↑</span>';
+      // Typing finished
+      if (cursor) {
+        let currentCursor = document.querySelector(`#${cursorId}`);
+        if (currentCursor) currentCursor.style.display = "none"; // Hide cursor
+      }
+
+      // Apply formatting (like color spans) after raw text is typed
+      element.innerHTML = formatTerminalOutput(text);
+
+      callback();
     }
+  }
+  type();
+}
+
+// Function to handle project link clicks (Mutually exclusive with papers)
+function showProjectDetails(projectId) {
+  const project = projects[projectId];
+  if (!project) return;
+
+  // Mutual Exclusivity: Hide paper details and show project details
+  document.getElementById("paper-details").style.display = "none";
+  const detailContainer = document.getElementById("project-details");
+
+  // Ensure project output is visible
+  detailContainer.style.display = "block";
+
+  const commandText = `cat ${project.name}`;
+  const linkElement = document.getElementById("detail-link");
+  linkElement.href = project.link || "#";
+  linkElement.textContent = project.link || "Repo not available";
+
+  // Clear previous content instantly
+  document.getElementById("detail-content").textContent = "";
+  document.getElementById("project-command-text").textContent = "";
+
+  // Step 1: Type the command text (slower speed for command typing)
+  typeWriter("project-command-text", commandText, "detail-cursor", 40, () => {
+    // Step 2: Type the content (output) (faster speed for output)
+    typeWriter(
+      "detail-content",
+      project.details.trim(),
+      "detail-cursor",
+      15,
+      () => {
+        // Callback after output is typed (nothing needed here, cursor is hidden by typeWriter)
+      }
+    );
   });
 }
+
+// Function to handle paper link clicks (Mutually exclusive with projects)
+function showPaperDetails(paperId) {
+  const paper = papers[paperId];
+  if (!paper) return;
+
+  // Mutual Exclusivity: Hide project details and show paper details
+  document.getElementById("project-details").style.display = "none";
+  const detailContainer = document.getElementById("paper-details");
+
+  // Ensure paper output is visible
+  detailContainer.style.display = "block";
+
+  const commandText = `cat ${paper.name}`;
+  const linkElement = document.getElementById("paper-detail-link");
+  linkElement.href = paper.link || "#";
+  linkElement.textContent = paper.link
+    ? "./" + paper.name
+    : "Paper not available";
+  if (paper.link) linkElement.target = "_blank";
+
+  // Clear previous content instantly
+  document.getElementById("paper-detail-content").textContent = "";
+  document.getElementById("paper-command-text").textContent = "";
+
+  // Step 1: Type the command text (slower speed for command typing)
+  typeWriter(
+    "paper-command-text",
+    commandText,
+    "paper-detail-cursor",
+    40,
+    () => {
+      // Step 2: Type the content (output) (faster speed for output)
+      typeWriter(
+        "paper-detail-content",
+        paper.details.trim(),
+        "paper-detail-cursor",
+        15,
+        () => {
+          // Callback after output is typed
+        }
+      );
+    }
+  );
+}
+
+// Expose functions to global scope for HTML onclick handlers
+window.showProjectDetails = showProjectDetails;
+window.showPaperDetails = showPaperDetails;
+
+// --- INITIALIZATION ---
+
+// Initial setup on page load
+document.addEventListener("DOMContentLoaded", () => {
+  const infoWarning = document.getElementById("info-warning");
+  const experienceSection = document.getElementById("experience-section");
+
+  // Hide the unused output section initially
+  document.getElementById("paper-details").style.display = "none";
+  document.getElementById("project-details").style.display = "none";
+
+  // 1. Start typing for the main info pane (profile_info.json)
+  typeWriter(
+    "info-output",
+    profileInfoContent.trim(),
+    "info-cursor",
+    20,
+    () => {
+      // 2. After info is typed, show and type the experience log
+      if (infoWarning)
+        infoWarning.textContent =
+          "Log found. Running 'cat experience_log.txt'...";
+
+      experienceSection.style.display = "block";
+
+      typeWriter(
+        "experience-output",
+        experienceContent.trim(),
+        "experience-cursor",
+        18,
+        () => {
+          // Experience typing finished
+        }
+      );
+    }
+  );
+});

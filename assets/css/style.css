@@ -1,53 +1,278 @@
+/* Define the terminal color scheme and font */
 :root {
-  --bg: #f8f9fb;
-  --surface: rgba(255, 255, 255, 0.7);
-  --text: #10121f;
-  --muted: #5c6072;
-  --accent: linear-gradient(135deg, #6c63ff, #9b5dff);
-  --accent-solid: #7f6bff;
-  --accent-secondary: #ff7ac5;
-  --border: rgba(16, 18, 31, 0.08);
-  --shadow: 0 24px 50px rgba(16, 18, 31, 0.1);
-  --header-blur: rgba(248, 249, 251, 0.8);
-  --noise-opacity: 0.04;
-}
-
-[data-theme="dark"] {
-  --bg: #060608;
-  --surface: rgba(12, 14, 26, 0.85);
-  --text: #f5f6ff;
-  --muted: #b5b6c7;
-  --accent: linear-gradient(135deg, #9b5dff, #6c63ff);
-  --accent-solid: #8e7bff;
-  --accent-secondary: #ffb86b;
-  --border: rgba(245, 246, 255, 0.08);
-  --shadow: 0 24px 40px rgba(2, 0, 32, 0.45);
-  --header-blur: rgba(6, 6, 8, 0.85);
-  --noise-opacity: 0.12;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
+  --color-bg: #1e1e1e; /* Dark Grey/Black Background */
+  --color-text: #00ff00; /* Bright Green Text */
+  --color-prompt: #00ffff; /* Cyan Prompt */
+  --color-border: #008800; /* Dark Green Border */
+  --color-window-bar: #333333; /* Window Bar Grey */
+  --color-secondary: #ffaa00; /* Amber secondary color */
+  --font-mono: "Fira Code", monospace;
 }
 
 body {
+  background-color: #0d0d0d; /* Even darker body background */
+  font-family: var(--font-mono);
+  color: var(--color-text);
+
+  /* TOP-LEFT ANCHORING */
   margin: 0;
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  padding: 1rem; /* Padding for margin around the main block */
   min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
+/* Main Grid Layout for 3 sections */
+.terminal-container {
+  display: grid;
+  /* UPDATED: Changed ratio to 1fr 4fr (20% / 80%) for more horizontal space */
+  grid-template-columns: 1fr 4fr;
+  width: 100%;
+  height: calc(100vh - 2rem); /* Now fills the height again */
+  /* UPDATED: Increased max-width for better horizontal expansion */
+  max-width: 1800px;
+  gap: 1rem; /* Reduced gap */
+  margin: 0 auto; /* Center horizontally */
+}
+
+/* Profile Panel Styling */
+.profile-panel {
+  background-color: var(--color-bg);
+  border: 2px solid var(--color-border);
+  box-shadow: 0 0 10px rgba(0, 136, 0, 0.5);
+  padding: 1rem; /* Reduced padding */
+
+  /* --- VERTICAL CENTERING IN LEFT COLUMN --- */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically center content */
+  align-items: center;
+  text-align: center;
+  /* -------------------------------------- */
+}
+
+.profile-picture {
+  width: 7rem; /* Slightly smaller picture */
+  height: 7rem;
+  border-radius: 50%;
+  border: 3px solid var(--color-text);
+  object-fit: cover;
+  box-shadow: 0 0 8px var(--color-text);
+  margin: 0 auto;
+}
+
+.terminal-command {
+  background: transparent;
+  border: 1px solid var(--color-text);
+  color: var(--color-text);
+  padding: 0.4rem 0.8rem; /* Reduced button padding */
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.8rem; /* Slightly smaller font */
+  text-align: left;
+  transition: all 0.2s ease-in-out;
+  width: 100%;
+  box-shadow: 0 2px 0 var(--color-border);
+}
+
+.terminal-command:hover {
+  background-color: var(--color-border);
+  color: var(--color-bg);
+  box-shadow: 0 0 0 transparent;
+  transform: translateY(2px);
+}
+
+.pane-header {
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Main Terminal Window Styling */
+.main-terminal-window {
+  border: 2px solid var(--color-border);
+  box-shadow: 0 0 10px rgba(0, 136, 0, 0.5);
+  background-color: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevent external scrollbar on this container */
+  min-height: 0; /* Fixes potential flex sizing issue */
+}
+
+/* Window Bar Aesthetics */
+.window-bar {
+  background-color: var(--color-window-bar);
+  padding: 0.4rem 0.8rem; /* Reduced padding */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--color-border);
+  color: white;
+  font-size: 0.8rem;
+  flex-shrink: 0; /* Bar should not shrink */
+}
+
+.window-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+.control-btn {
+  width: 10px; /* Smaller controls */
+  height: 10px;
+  border-radius: 50%;
+  cursor: default;
+}
+.control-btn.minimize {
+  background-color: #ffb800;
+}
+.control-btn.maximize {
+  background-color: #00ff00;
+}
+.control-btn.close {
+  background-color: #ff0000;
+}
+
+/* Two Panes (Middle and Right) */
+.terminal-panes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex-grow: 1; /* This MUST grow to fill the remaining height of main-terminal-window */
+  min-height: 0; /* Crucial for vertical scrolling fix inside grid/flex containers */
+}
+
+.terminal-pane {
+  padding: 0.75rem; /* Reduced padding */
+  overflow-y: auto; /* EACH PANE handles its own scroll */
+  min-height: 0; /* Ensures content doesn't dictate minimum pane size */
+}
+
+.info-pane {
+  border-right: 1px solid var(--color-border);
+  /* info-pane is a standard scrollable container */
+}
+
+/* UPDATED: Right Pane Layout (Flex container inside a Grid cell) */
+.projects-pane {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Allows the entire right pane to scroll */
+  min-height: 0;
+}
+
+/* Container for the project/paper lists */
+#list-sections {
+  flex-shrink: 0; /* Ensures the lists only take the height they need */
+}
+
+/* Output sections now follow directly after #list-sections */
+#project-details,
+#paper-details {
+  flex-shrink: 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Terminal Content */
+.prompt {
+  color: var(--color-prompt);
+  font-weight: 700;
+}
+
+.terminal-output {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  margin-top: 0;
+  line-height: 1.5;
+}
+
+.terminal-pane h3 {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  white-space: pre-wrap;
+  margin-top: 0;
+}
+
+.terminal-output pre {
+  margin: 0;
+  padding: 0;
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+  overflow-wrap: break-word; /* Standard */
+  font-family: inherit;
+  display: block;
+  line-height: inherit;
+  max-width: 100%; /* Ensure it doesn't overflow container */
+}
+
+.terminal-output a {
+  color: var(--color-secondary); /* Amber for links */
+  text-decoration: none;
+  transition: color 0.1s;
+}
+.terminal-output a:hover {
+  text-decoration: underline;
+  color: #fff;
+}
+
+.success {
+  color: #90ee90; /* Light green for success status */
+}
+
+.warn {
+  color: #ff7f50; /* Coral for warnings/hints */
+}
+
+/* Blinking Cursor Simulation */
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+.cursor {
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  background-color: var(--color-text);
+  animation: blink 1s step-start infinite;
+  transform: translateY(2px);
+  margin-left: 2px;
+}
+
+/* Profile Panel Text */
+.profile-panel h1 {
+  font-size: 1.5rem; /* Reduced profile heading size */
+}
+.profile-panel h2 {
+  font-size: 1rem; /* Reduced profile subheading size */
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 1024px) {
+  .terminal-container {
+    grid-template-columns: 1fr; /* Stack all columns */
+    height: auto;
+    max-height: none; /* Allow vertical growth on mobile */
+  }
+  .profile-panel {
+    margin-bottom: 1rem; /* Reduced mobile margin */
+  }
+  .terminal-panes {
+    grid-template-columns: 1fr; /* Stack panes vertically */
+  }
+  .info-pane {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+  /* Ensure mobile panes can scroll */
+  .projects-pane {
+    display: block; /* Remove flexbox for stacking on mobile */
+    height: auto;
+  }
+  #project-details,
+  #paper-details {
+    margin-top: 1rem;
+  }
   background: radial-gradient(
       circle at top left,
       rgba(108, 99, 255, 0.2),
